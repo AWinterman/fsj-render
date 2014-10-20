@@ -1,0 +1,24 @@
+#!/usr/bin/env node
+
+var minimist = require('minimist')
+var browserify = require('browserify')
+var fsj = require('fsj')
+var tmp = require('os').tmpdir
+var fs = require('fs')
+var path = require('path')
+var through = require('through')
+var spawn = require('child_process').spawn
+var deps = require('module-deps')
+
+var args = process.argv.slice(2)
+
+var options = minimist(args)
+
+process.stdin
+  .pipe(fs.createWriteStream('./browser/fsj.json'))
+  .on('finish', function(err) {
+    var b = browserify(['./browser/index.js'])
+    b.bundle().pipe(fs.createWriteStream('./public/main.js'))
+
+    spawn('open', ['./public/index.html'])
+  })
