@@ -6,9 +6,10 @@ body {
 
 div.main {
     padding-top: 2em;
-    max-width: 30em;
+    max-width: 40em;
     margin-left: 2em;
     padding-bottom: 2em;
+    overflow: auto;
 }
 
 li {
