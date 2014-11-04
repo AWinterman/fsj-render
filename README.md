@@ -5,8 +5,10 @@ page app with it.
 
 The results of running    
 
-```
-find . -name "*.md" -o -name "*.markdown" | fsj -t "xargs marked" | ./fsj-render
+```sh
+find . -name "*.md" -o -name "*.markdown" \
+  | fsj -t "pandoc -f markdown -t html" \
+  | ./fsj-render
 ```
 
 (after npm i && npm dedupe) are available at awinterman.github.io/fsj-render/
