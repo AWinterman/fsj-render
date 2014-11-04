@@ -1,6 +1,5 @@
 #!/usr/bin/env node
 
-var minimist = require('minimist')
 var browserify = require('browserify')
 var hyperstream = require('hyperstream')
 var replace = require('replacestream')
@@ -8,8 +7,6 @@ var fs = require('fs')
 var spawn = require('child_process').spawn
 
 var args = process.argv.slice(2)
-
-var options = minimist(args)
 
 process.stdin
   .pipe(fs.createWriteStream('./browser/fsj.json'))
