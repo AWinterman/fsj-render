@@ -1,23 +1,23 @@
 var json = require('./fsj.json')
 var render = require('./render')
 
-var main = document.createElement('div')
-var nav = document.createElement('ul')
-nav.className = 'navigation'
-main.className = 'main'
+window.onload = function() {
+  var main = document.createElement('div')
+  var nav = document.createElement('ul')
+  nav.className = 'navigation'
+  main.className = 'main'
 
-document.body.appendChild(nav)
-document.body.appendChild(main)
+  document.body.appendChild(nav)
+  document.body.appendChild(main)
 
-var ee = render(main, nav, json)
+  var ee = render(main, nav, json)
 
-ee.on('data', function(data) {
-   window.location.hash = '#!' + data.__path__
-})
+  ee.on('data', function(data) {
+     window.location.hash = '#!' + data.__path__
+  })
 
-hash = decodeURIComponent(window.location.hash.slice(2))
+  hash = decodeURIComponent(window.location.hash.slice(2))
 
-ee.write(hash)
-
-
+  ee.write(hash)
+}
 

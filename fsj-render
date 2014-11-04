@@ -2,13 +2,10 @@
 
 var minimist = require('minimist')
 var browserify = require('browserify')
-var fsj = require('fsj')
-var tmp = require('os').tmpdir
+var hyperstream = require('hyperstream')
+var replace = require('replacestream')
 var fs = require('fs')
-var path = require('path')
-var through = require('through')
 var spawn = require('child_process').spawn
-var deps = require('module-deps')
 
 var args = process.argv.slice(2)
 
@@ -18,7 +15,19 @@ process.stdin
   .pipe(fs.createWriteStream('./browser/fsj.json'))
   .on('finish', function(err) {
     var b = browserify(['./browser/index.js'])
-    b.bundle().pipe(fs.createWriteStream('./public/main.js'))
+    var css = fs.createReadStream('./browser/style.css')
+    var bundle = b.bundle().pipe(replace('<', '\\x3C'))
+
+    fs.createReadStream('./browser/index.html')
+      .pipe(hyperstream({
+        '#style': css,
+        '#js': bundle
+      }))
+      .pipe(fs.createWriteStream('./public/index.html'))
 
     spawn('open', ['./public/index.html'])
   })
+
+function log(data) {
+  console.log(data.toString())
+}
