@@ -16,16 +16,14 @@ process.stdin
   .on('finish', function(err) {
     var b = browserify(['./browser/index.js'])
     var css = fs.createReadStream('./browser/style.css')
-    var bundle = b.bundle().pipe(replace('<', '\\x3C'))
+    var bundle = b.bundle().pipe(replace('</script>', '<\\/script>'))
 
     fs.createReadStream('./browser/index.html')
       .pipe(hyperstream({
         '#style': css,
         '#js': bundle
       }))
-      .pipe(fs.createWriteStream('./public/index.html'))
-
-    spawn('open', ['./public/index.html'])
+      .pipe(process.stdout)
   })
 
 function log(data) {

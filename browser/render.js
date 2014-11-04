@@ -15,9 +15,9 @@ module.exports = function(element, nav, json_blob) {
   return ee
 }
 
-
 function render(element, nav, json_blob, path, ee) {
-  var keys = Object.keys(json_blob)
+  var keys = Object.keys(json_blob).sort(make_sort_order(json_blob))
+
   var key
   var ul
   var li
@@ -28,9 +28,18 @@ function render(element, nav, json_blob, path, ee) {
     if(typeof json_blob[key] === 'object') {
       ul = document.createElement('ul')
       li = document.createElement('li')
+      a = document.createElement('a')
 
-      li.innerHTML = key + '/'
+      a.__ul__ = ul
+      a.innerHTML = '<pre>' + key + '/</pre>'
+      a.onclick = function(event) {
+        event.preventDefault()
+        toggle_hidden_class(this.__ul__)
+      }
+      a.href = '#'
+      li.className = 'parent'
 
+      li.appendChild(a)
       nav.appendChild(li)
       nav.appendChild(ul)
 
@@ -99,4 +108,39 @@ function collapse(blob) {
   }
 
   return result
+}
+
+function make_sort_order(json_blob) {
+  return function sort(a, b) {
+    var a_is_obj = typeof json_blob[a] === 'object'
+    var b_is_obj = typeof json_blob[b] === 'object'
+
+    if(a_is_obj && b_is_obj || !a_is_obj && !b_is_obj) {
+      return a >= b ? -1 : 1
+    }
+
+    if(a_is_obj && !b_is_obj) {
+      return 1
+    }
+
+    if(!a_is_obj && b_is_obj) {
+      return -1
+    }
+
+    return 0
+  }
+}
+
+function toggle_hidden_class(el) {
+  var name = 'hidden'
+  var classes = el.className.split(' ')
+  var idx = el.className.indexOf('hidden')
+
+  if(idx > -1) {
+    classes.splice(idx, 1)
+  } else {
+    classes.push('hidden')
+  }
+
+  el.className = classes.join(' ')
 }
