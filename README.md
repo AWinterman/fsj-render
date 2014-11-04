@@ -11,7 +11,7 @@ find . -name "*.md" -o -name "*.markdown" \
   | ./fsj-render
 ```
 
-(after npm i && npm dedupe) are available [here](awinterman.github.io/fsj-render/)
+(after npm i && npm dedupe) are available [here](http://awinterman.github.io/fsj-render/)
 
 ## Todo
 - let user specify your own css
