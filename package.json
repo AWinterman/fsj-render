@@ -2,7 +2,8 @@
   "name": "fsj-render",
   "version": "0.0.0",
   "description": "Render an fsj blob!",
-  "main": "index.js",
+  "bin": {"fsj-render": "./fsj-render"},
+  "browser": "./browser/index.js",
   "dependencies": {
     "browserify": "^6.2.0",
     "hyperstream": "^1.2.1",

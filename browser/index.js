@@ -1,9 +1,12 @@
 var json = require('./fsj.json')
 var render = require('./render')
 
-window.onload = function() {
-  var main = document.createElement('div')
-  var nav = document.createElement('ul')
+module.exports = makePage
+
+function makePage(main, nav) {
+  main = main || document.createElement('div')
+  nav = nav || document.createElement('ul')
+
   nav.className = 'navigation'
   main.className = 'main'
 
@@ -20,4 +23,3 @@ window.onload = function() {
 
   ee.write(hash)
 }
-
